@@ -1,0 +1,53 @@
+{
+  "api": {
+    "titles": [
+      "НазваниеПредложения1",
+      "НазваниеПредложения2",
+      "НазваниеПредложения3",
+      "НазваниеПредложения4",
+      "НазваниеПредложения5"
+    ],
+    "descriptions": [
+      "ОписаниеПредложения1",
+      "ОписаниеПредложения2",
+      "ОписаниеПредложения3",
+      "ОписаниеПредложения4",
+      "ОписаниеПредложения5"
+    ],
+    "previewImages": [
+      "preview1.jpg",
+      "preview2.jpg",
+      "preview3.jpg",
+      "preview4.jpg",
+      "preview5.jpg"
+    ],
+    "photos": [
+      "photo1.jpg",
+      "photo2.jpg",
+      "photo3.jpg",
+      "photo4.jpg",
+      "photo5.jpg"
+    ],
+    "names": [
+      "Дмитрий",
+      "Анна",
+      "Сергей",
+      "Владислав",
+      "Оксана"
+    ],
+    "emails": [
+      "test1@mail.ru",
+      "test2@mail.ru",
+      "test3@mail.ru",
+      "test4@mail.ru",
+      "test5@mail.ru"
+    ],
+    "avatars": [
+      "avatar1.png",
+      "avatar2.png",
+      "avatar3.png",
+      "avatar4.png",
+      "avatar5.png"
+    ]
+  }
+}
