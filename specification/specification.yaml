@@ -1,0 +1,514 @@
+openapi: 3.0.3
+info:
+  title: API для проекта Six Cities
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /offers:
+    get:
+      responses:
+       200:
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Offer'
+       400:
+        description: Некорректный запрос
+
+    post:
+      requestBody:
+        description: Новое предложение
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewOffer'
+        required: true
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Offer'
+        400:
+          description: Некорректный запрос
+
+  /offers/{offerId}:
+    get:
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer'
+        400:
+          description: Некорректный запрос
+
+    patch:
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Обновленное предложение
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Offer'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer'
+        400:
+          description: Некорректный запрос
+
+    delete:
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Предложение успешно удалено
+        404:
+          description: Предложение не найдено
+
+  /favorites:
+    get:
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Offer'
+        400:
+          description: Некорректный запрос
+
+  /premium?city={city}:
+    get:
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Offer'
+        400:
+          description: Некорректный запрос
+
+  /offers/{offerId}/comments:
+    get:
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        400:
+          description: Некорректный запрос
+
+    post:
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Новый комментарий
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentAuth'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        400:
+          description: Некорректный запрос
+
+  /favorites/{offerId}:
+    post:
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer'
+        400:
+          description: Некорректный запрос
+        401:
+          description: Пользователь не авторизован
+
+    delete:
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Offer'
+        400:
+          description: Некорректный запрос
+        401:
+          description: Пользователь не авторизован
+
+  /login:
+    post:
+      requestBody:
+        description: Вход
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserAuth'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAuthResponse'
+        400:
+          description: Некорректный запрос
+
+    get:
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Некорректный запрос
+
+  /register:
+    post:
+      requestBody:
+        description: Регистрация
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegisterResponse'
+        400:
+          description: Некорректный запрос
+
+  /logout:
+    delete:
+      responses:
+        200:
+          description: OK
+        400:
+          description: Некорректный запрос
+
+  /{userId}/avatar:
+    post:
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Аватар пользователя
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - avatar
+              properties:
+                avatar:
+                  type: object
+
+      responses:
+        200:
+          description: OK
+        400:
+          description: Некорректный запрос
+
+components:
+  schemas:
+    Offer:
+      description: Offer schema
+      properties:
+        id:
+          type: string
+        price:
+          type: number
+        rating:
+          type: number
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+        isPremium:
+          type: boolean
+        isFavorite:
+          type: boolean
+        city:
+          $ref: '#/components/schemas/City'
+        location:
+          $ref: '#/components/schemas/Location'
+        previewImage:
+          type: string
+        type:
+          $ref: '#/components/schemas/OfferType'
+        bedrooms:
+          type: number
+        description:
+          type: string
+          minLength: 20
+          maxLength: 1024
+        goods:
+          type: array
+          items:
+            type: string
+        host:
+          $ref: '#/components/schemas/User'
+        images:
+          type: array
+          items:
+            type: string
+        maxAdults:
+          type: number
+
+    NewOffer:
+      description: NewOffer schema
+      properties:
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+        description:
+          type: string
+          minLength: 20
+          maxLength: 1024
+        city:
+          $ref: '#/components/schemas/City'
+        previewImage:
+          type: string
+        isPremium:
+          type: boolean
+        type:
+          $ref: '#/components/schemas/OfferType'
+        bedrooms:
+          type: number
+        maxAdults:
+          type: number
+        price:
+          type: number
+        goods:
+          type: array
+          items:
+            type: string
+        location:
+          $ref: '#/components/schemas/Location'
+        images:
+          type: array
+          items:
+            type: string
+
+    Comment:
+      description: Comment schema
+      properties:
+        id:
+          type: string
+        comment:
+          type: string
+          minLength: 5
+          maxLength: 1024
+        date:
+          type: string
+        rating:
+          type: number
+        user:
+          $ref: '#/components/schemas/User'
+
+    CommentAuth:
+      description: CommentAuth scheme
+      properties:
+        comment:
+          type: string
+        rating:
+          type: number
+
+    User:
+      description: User schema
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 15
+          example: Dmitry
+        avatarUrl:
+          type: string
+        type:
+          $ref: '#/components/schemas/UserType'
+        email:
+          type: string
+          pattern: ^\S@i.edu$
+
+    UserRegister:
+      description: UserRegister schema
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+          minLength: 6
+          maxLength: 12
+        type:
+          $ref: '#/components/schemas/UserType'
+        email:
+          type: string
+          pattern: ^\S@i.edu$
+
+    UserRegisterResponse:
+      description: UserRegisterResponse schema
+      properties:
+        id:
+          type: string
+
+    UserAuth:
+      description: UserAuth schema
+      properties:
+        email:
+          type: string
+          pattern: ^\S@i.edu$
+        password:
+          type: string
+          minLength: 6
+          maxLength: 12
+
+    UserAuthResponse:
+      description: User schema
+      properties:
+        name:
+          type: string
+        avatarUrl:
+          type: string
+        type:
+          $ref: '#/components/schemas/UserType'
+        email:
+          type: string
+          pattern: ^\S@i.edu$
+        token:
+          type: string
+
+    City:
+      description: City schema
+      properties:
+        name:
+          $ref: '#/components/schemas/CityName'
+        location:
+          $ref: '#/components/schemas/Location'
+
+    Location:
+      description: Location schema
+      properties:
+        latitude:
+          type: number
+        longitude:
+          type: number
+
+    OfferType:
+      description: OfferType schema
+      type: string
+      enum:
+        - apartment
+        - room
+        - house
+        - hotel
+
+    UserType:
+      description: UserType schema
+      type: string
+      enum:
+        - pro
+        - regular
+
+    CityName:
+      description: CityName schema
+      type: string
+      enum:
+        - Paris
+        - Cologne
+        - Brussels
+        - Amsterdam
+        - Hamburg
+        - Dusseldorf
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
+      description: User Token
