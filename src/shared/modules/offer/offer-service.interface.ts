@@ -11,7 +11,7 @@ export interface OfferService extends DocumentExists {
     title: string;
     type: OfferType;
     price: number;
-    host: any;
+    host: string;
     maxAdults: number;
     countRooms: number;
     location: Location;

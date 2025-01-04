@@ -21,7 +21,7 @@ export class DefaultOfferService implements OfferService {
     title: string;
     type: OfferType;
     price: number;
-    host: any;
+    host: string;
     maxAdults: number;
     countRooms: number;
     location: Location;
