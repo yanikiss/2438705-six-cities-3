@@ -15,11 +15,17 @@ export class CommentEntity extends defaultClasses.TimeStamps {
     required: true,
     type: () => String
   })
-  public text: string;
+  public comment: string;
+
+  // @prop({
+  //   required: true,
+  //   type: () => Date
+  // })
+  // public date: Date;
 
   @prop({
     required: true,
-    type: () => String
+    type: () => Number
   })
   public rating: number;
 
@@ -35,7 +41,7 @@ export class CommentEntity extends defaultClasses.TimeStamps {
     required: true,
     type: () => String
   })
-  public userId: Ref<UserEntity>;
+  public user: Ref<UserEntity>;
 }
 
 export const CommentModel = getModelForClass(CommentEntity);

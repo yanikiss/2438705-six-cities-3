@@ -327,10 +327,6 @@ components:
           type: string
           minLength: 20
           maxLength: 1024
-        goods:
-          type: array
-          items:
-            type: string
         host:
           $ref: '#/components/schemas/User'
         images:
@@ -365,10 +361,6 @@ components:
           type: number
         price:
           type: number
-        goods:
-          type: array
-          items:
-            type: string
         location:
           $ref: '#/components/schemas/Location'
         images:

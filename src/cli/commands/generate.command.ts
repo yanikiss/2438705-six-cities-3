@@ -16,14 +16,6 @@ export class GenerateCommand implements Command {
     }
   }
 
-  private async write(filepath: string, offerCount: number) {
-    const tsvOfferGenerator = new TSVOfferGenerator(this.initialData);
-    const tsvFileWriter = new TSVFileWriter(filepath);
-    for (let i = 0; i < offerCount; i++) {
-      await tsvFileWriter.write(tsvOfferGenerator.generate());
-    }
-  }
-
   public getName(): string {
     return '--generate';
   }
@@ -34,7 +26,11 @@ export class GenerateCommand implements Command {
 
     try {
       await this.load(url);
-      await this.write(filepath, offerCount);
+      const tsvOfferGenerator = new TSVOfferGenerator(this.initialData);
+      const tsvFileWriter = new TSVFileWriter(filepath);
+      for (let i = 0; i < offerCount; i++) {
+        await tsvFileWriter.write(tsvOfferGenerator.generate());
+      }
       console.info(`File ${filepath} was created`);
     } catch (error: unknown) {
       console.error('Can\'t generate data');

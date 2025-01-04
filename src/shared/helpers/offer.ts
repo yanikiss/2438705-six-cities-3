@@ -1,24 +1,24 @@
-import {Amenity, City, Offer, OfferType, UserType} from '../types/index.js';
+import {Offer, OfferType, UserType} from '../types/index.js';
+import {CityName} from "../types/city-name.enum";
 
 export function createOffer(offerData: string): Offer {
   const [
     title,
     description,
-    createdDate,
+    postDate,
     city,
     previewImage,
-    photos,
-    premium,
-    favorite,
+    images,
+    isPremium,
+    isFavorite,
     rating,
     type,
-    roomCount,
-    guestCount,
+    bedrooms,
+    maxAdults,
     price,
-    amenities,
     name,
     email,
-    avatar,
+    avatarUrl,
     userType,
     coordinates
   ] = offerData.replace('\n', '').split('\t');
@@ -26,28 +26,30 @@ export function createOffer(offerData: string): Offer {
   return {
     title,
     description,
-    postDate: new Date(createdDate),
-    city: city as City,
+    postDate: new Date(postDate),
+    city: {
+      name: city as CityName,
+      location: {
+        latitude: Number.parseFloat(coordinates.split(';')[0]),
+        longitude: Number.parseFloat(coordinates.split(';')[1])
+      }
+    },
     previewImage,
-    photos: photos.split(';'),
-    premium: premium.toLowerCase() === 'true',
-    favorite: favorite.toLowerCase() === 'true',
+    images: images.split(';'),
+    isPremium: isPremium.toLowerCase() === 'true',
+    isFavorite: isFavorite.toLowerCase() === 'true',
     rating: Number.parseInt(rating, 10),
     type: type as OfferType,
-    roomCount: Number.parseInt(roomCount, 10),
-    guestCount: Number.parseInt(guestCount, 10),
+    countRooms: Number.parseInt(bedrooms, 10),
+    maxAdults: Number.parseInt(maxAdults, 10),
     price: Number.parseInt(price, 10),
-    amenities: amenities
-      .split(';')
-      .map((amenity) => amenity as Amenity),
-    user: {
+    host: {
       name,
       email,
-      avatar,
+      avatarUrl,
       type: userType as UserType
     },
-    commentCount: 0,
-    coordinates: {
+    location: {
       latitude: Number.parseFloat(coordinates.split(';')[0]),
       longitude: Number.parseFloat(coordinates.split(';')[1])
     }
